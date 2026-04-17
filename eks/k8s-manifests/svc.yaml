@@ -1,1 +1,12 @@
+#create service acount
 
+kubectl create ns webapp
+vi svc.yaml
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jenkins
+  namespace: webapps
+
+kubectl apply -f svc.yam
