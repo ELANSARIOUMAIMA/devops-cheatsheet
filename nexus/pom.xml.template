@@ -1,13 +1,27 @@
 <!-- ⚠️ Add this at the bottom of your pom.xml -->
 <!-- ⚠️ Modify: your-nexus-ip -->
 
-<distributionManagement>
-    <repository>
-        <id>maven-releases</id>
-        <url>http://<your-nexus-ip>:8081/repository/maven-releases/</url>
-    </repository>
-    <snapshotRepository>
-        <id>maven-snapshots</id>
-        <url>http://<your-nexus-ip>:8081/repository/maven-snapshots/</url>
-    </snapshotRepository>
-</distributionManagement>
+<project>
+    <groupId>...</groupId>
+    <artifactId>...</artifactId>
+    <version>...</version>
+    <packaging>...</packaging>
+
+    <dependencies>
+        ...
+    </dependencies>
+
+    <!-- ADD IT HERE at the bottom -->
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <url>http://<your-nexus-ip>:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <url>http://<your-nexus-ip>:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>
+
