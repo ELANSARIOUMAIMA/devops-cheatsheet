@@ -1,10 +1,5 @@
 # 📧 Mail Notification Pipeline Script
-
-## ⚠️ Modify these:
-# - to: 'your-email@gmail.com'
-# - from: 'jenkins@example.com'
-# - replyTo: 'jenkins@example.com'
-
+```bash
 post {
     always {
         script {
@@ -39,3 +34,4 @@ post {
         }
     }
 }
+```
