@@ -7,8 +7,12 @@ sudo apt update
 ```bash
 sudo apt install docker.io -y
 ```
+```bash
 sudo usermod -aG docker ubuntu
+```
+```bash
 newgrp docker
+```
 
 # ⚠️ SonarQube runs on port 9000
 docker run -d -p 9000:9000 sonarqube:lts-community
