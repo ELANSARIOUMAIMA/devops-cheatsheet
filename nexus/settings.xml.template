@@ -1,1 +1,17 @@
+<!-- ⚠️ Add this in Jenkins > Managed Files -->
+<!-- ⚠️ Modify: your-nexus-password -->
 
+<settings>
+    <servers>
+        <server>
+            <id>maven-releases</id>
+            <username>admin</username>
+            <password>your-nexus-password</password>
+        </server>
+        <server>
+            <id>maven-snapshots</id>
+            <username>admin</username>
+            <password>your-nexus-password</password>
+        </server>
+    </servers>
+</settings>
