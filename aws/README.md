@@ -2,10 +2,20 @@
 # ☁️ AWS CLI Setup
 
 ## Install AWS CLI
-````curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"````
-````sudo apt install unzip````
-````unzip awscliv2.zip````
-````sudo ./aws/install````
+```bash 
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+````
+```bash
+sudo apt install unzip
+```
+
+```bash
+unzip awscliv2.zip
+```
+
+```bash
+sudo ./aws/install
+```
 
 ## ⚠️ Configure AWS (modify these!)
 ````aws configure````
