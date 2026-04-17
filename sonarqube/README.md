@@ -1,8 +1,12 @@
 # 🔍 SonarQube Setup
 
 ## Install & Run SonarQube (Docker)
+```bash
 sudo apt update
+```
+```bash
 sudo apt install docker.io -y
+```
 sudo usermod -aG docker ubuntu
 newgrp docker
 
