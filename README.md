@@ -4,7 +4,6 @@
 > Just modify the IP, cluster name, and image name!
 
 ## 📌 Table of Contents
-
 - [AWS CLI](./aws/README.md)
 - [Terraform](./terraform/README.md)
 - [Jenkins](./jenkins/README.md)
@@ -13,7 +12,6 @@
 - [EKS Cluster](./eks/README.md)
 
 ## ⚠️ Things to Modify Per Project:
-
 | Variable | Description |
 |---|---|
 | `<your-nexus-ip>` | Your Nexus server IP |
