@@ -51,7 +51,7 @@ kubectl apply -f \
 https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 ```
 
-## Install Cert Manager => Automatically manages SSL/TLS certificates so Your app gets HTTPS automatically! 
+## Install Cert Manager => Automatically manages SSL/TLS certificates so Your app gets HTTPS automatically! 🔒
 ```bash
 kubectl apply -f \
 https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
