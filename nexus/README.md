@@ -20,9 +20,19 @@ docker run -d -p 8081:8081 sonatype/nexus3
 docker ps
 
 ## Get Initial Admin Password
+```bash
 docker exec -it <container-name-or-id>
+```
+```bash
 ls
+```
+```bash
 cd nexus3/
+```
+```bash
 ls
+```
+```bash
 cat admin.password
+```
 #don't copy bash
