@@ -1,4 +1,4 @@
-# create cluster roles to add foew more service
+# create cluster roles to add few more service
 
 vi cr.yaml
 
