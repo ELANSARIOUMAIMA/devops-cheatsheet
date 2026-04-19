@@ -1,35 +1,19 @@
-# ============================================================
-# RBAC (Role-Based Access Control) Configuration
-# ============================================================
-# RBAC is a method of regulating access to computer or network
-# resources based on the roles of individual users within an
-# organization. In Kubernetes, RBAC uses the
-# rbac.authorization.k8s.io API group to drive authorization
-# decisions, allowing admins to dynamically configure policies.
-#
-# Key components:
-#   - ServiceAccount : Identity for processes running in a Pod
-#   - Role           : Defines permissions within a namespace
-#   - RoleBinding    : Grants a Role to a user/serviceaccount
-#   - ClusterRole    : Defines permissions cluster-wide
-#   - ClusterRoleBinding : Grants a ClusterRole cluster-wide
-#
-# This configuration grants the jenkins ServiceAccount all
-# necessary permissions to manage workloads in the webapps
-# namespace, including dynamic provisioning with StorageClasses
-# and PersistentVolumes.
-# ============================================================
+# RBAC
+ 
+ RBAC YAML configuration for the `jenkins` ServiceAccount, Role, RoleBinding, ClusterRole, and ClusterRoleBinding to ensure the ServiceAccount can create all the resources in your YAML file, including dynamic provisioning with StorageClasses and PersistentVolumes.
 
-# 1. ServiceAccount
+### **1. ServiceAccount**
+```yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: jenkins
   namespace: webapps
+```
 
----
 
-# 2. Role (namespace-scoped permissions)
+### **2. Role**
+```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -47,7 +31,7 @@ rules:
     verbs: ["get", "list", "watch", "create", "update", "delete","patch"]
 
   # Permissions for apps API group
-   - apiGroups: ["apps"]
+  - apiGroups: ["apps"]
     resources:
       - deployments
       - replicasets
@@ -65,10 +49,11 @@ rules:
     resources:
       - horizontalpodautoscalers
     verbs: ["get", "list", "watch", "create", "update", "delete","patch"]
+```
 
----
 
-# 3. RoleBinding
+### **3. RoleBinding**
+```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -82,10 +67,11 @@ subjects:
   - kind: ServiceAccount
     name: jenkins
     namespace: webapps
+```
 
----
 
-# 4. ClusterRole (cluster-wide permissions)
+### **4. ClusterRole**
+```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -107,9 +93,11 @@ rules:
       - clusterissuers
     verbs: ["get", "list", "watch", "create", "update", "delete"]
 
----
+```
 
-# 5. ClusterRoleBinding
+
+### **5. ClusterRoleBinding**
+```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -122,60 +110,56 @@ subjects:
   - kind: ServiceAccount
     name: jenkins
     namespace: webapps
+```
 
----
 
-# ============================================================
-# Explanation of Permissions
-# ============================================================
-# ServiceAccount:
-#   - The jenkins ServiceAccount is created in the webapps namespace.
-#
-# Role:
-#   - Grants access to namespace-specific resources:
-#     - Secrets, ConfigMaps, PersistentVolumeClaims, Services, Pods
-#     - Deployments, ReplicaSets, StatefulSets (apps API group)
-#     - Ingresses (networking.k8s.io API group)
-#     - HorizontalPodAutoscalers (autoscaling API group)
-#
-# RoleBinding:
-#   - Binds the jenkins Role to the ServiceAccount in the webapps namespace.
-#
-# ClusterRole:
-#   - Grants access to cluster-wide resources:
-#     - PersistentVolumes (required for dynamic provisioning)
-#     - StorageClasses (required to create and manage storage classes)
-#     - ClusterIssuers (cert-manager)
-#
-# ClusterRoleBinding:
-#   - Binds the jenkins ClusterRole to the ServiceAccount cluster-wide.
-#
-# ============================================================
-# How to Apply
-# ============================================================
-# Apply everything in one command:
-#   kubectl apply -f jenkins-rbac.yaml
-#
-# Or apply separately in this order:
-#   kubectl apply -f serviceaccount.yaml
-#   kubectl apply -f role.yaml
-#   kubectl apply -f rolebinding.yaml
-#   kubectl apply -f clusterrole.yaml
-#   kubectl apply -f clusterrolebinding.yaml
-#
-# ============================================================
-# Verify Permissions
-# ============================================================
-#   kubectl auth can-i create secrets \
-#     --as=system:serviceaccount:webapps:jenkins -n webapps
-#
-#   kubectl auth can-i create storageclasses \
-#     --as=system:serviceaccount:webapps:jenkins
-#
-#   kubectl auth can-i create persistentvolumes \
-#     --as=system:serviceaccount:webapps:jenkins
-#
-# ============================================================
-# Generate Token for Jenkins ServiceAccount
-# ============================================================
-#   kubectl create token jenkins -n webapps
+
+### **Explanation of Permissions**
+
+1. **ServiceAccount**:  
+   - The `jenkins` ServiceAccount is created in the `webapps` namespace.
+
+2. **Role**:
+   - Grants access to namespace-specific resources:
+     - **Secrets**, **ConfigMaps**, **PersistentVolumeClaims**, **Services**, and **Pods**.
+     - **Deployments** and **ReplicaSets** under the `apps` API group.
+
+3. **RoleBinding**:
+   - Binds the `jenkins` Role to the ServiceAccount in the `webapps` namespace.
+
+4. **ClusterRole**:
+   - Grants access to cluster-wide resources:
+     - **PersistentVolumes** (required for dynamic provisioning).
+     - **StorageClasses** (required to create and manage storage classes for dynamic PV provisioning).
+
+5. **ClusterRoleBinding**:
+   - Binds the `jenkins` ClusterRole to the ServiceAccount for cluster-wide operations.
+
+
+
+### **How to Apply the YAML Files**
+1. Save each YAML snippet as a separate file:
+   - `serviceaccount.yaml`
+   - `role.yaml`
+   - `rolebinding.yaml`
+   - `clusterrole.yaml`
+   - `clusterrolebinding.yaml`
+
+2. Apply them in the following order:
+   ```bash
+   kubectl apply -f serviceaccount.yaml
+   kubectl apply -f role.yaml
+   kubectl apply -f rolebinding.yaml
+   kubectl apply -f clusterrole.yaml
+   kubectl apply -f clusterrolebinding.yaml
+   ```
+
+3. Verify the ServiceAccount has the expected permissions:
+   ```bash
+   kubectl auth can-i create secrets --as=system:serviceaccount:webapps:jenkins -n webapps
+   kubectl auth can-i create storageclasses --as=system:serviceaccount:webapps:jenkins
+   kubectl auth can-i create persistentvolumes --as=system:serviceaccount:webapps:jenkins
+   ```
+
+### Generate token using service account in the namespace
+[Create Token](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#:~:text=To%20create%20a%20non%2Dexpiring,with%20that%20generated%20token%20data.)
